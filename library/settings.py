@@ -137,9 +137,9 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT='staticfiles/'
 
-ALLOWED_HOSTS=["127.0.0.1","localhost","https://library-1-p5n5.onrender.com"]
+ALLOWED_HOSTS=["127.0.0.1","localhost","library-1-p5n5.onrender.com"]
 
-CSRF_TRUSTED_ORIGINS=["http://127.0.0.1:8000","http://localhost:8000","https://library-1-p5n5.onrender.com"]
+CSRF_TRUSTED_ORIGINS=["127.0.0.1:8000","localhost:8000","library-1-p5n5.onrender.com"]
 CSRF_COOKIE_SECURE=True
 SESSION_COOKIE_SECURE=True
 CSRF_COOKIE_SAMESITE="Lax"
