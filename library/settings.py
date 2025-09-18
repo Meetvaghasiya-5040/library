@@ -137,6 +137,14 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT='staticfiles/'
 
+ALLOWED_HOSTS=["127.0.0.1","localhost","https://library-1-p5n5.onrender.com"]
+
+CSRF_TRUSTED_ORIGINS=["http://127.0.0.1:8000","http://localhost:8000","https://library-1-p5n5.onrender.com"]
+CSRF_COOKIE_SECURE=True
+SESSION_COOKIE_SECURE=True
+CSRF_COOKIE_SAMESITE="Lax"
+SESSION_COOKIE_SAMESITE='Lax'
+SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDED_PROTO','https')
 MESSAGE_TAGS={
     messages.ERROR:'danger',
     messages.SUCCESS:'success'
@@ -145,7 +153,7 @@ MESSAGE_TAGS={
 TIME_ZONE='Asia/Kolkata'
 USE_TZ=True
 
-ALLOWED_HOSTS=['*']
+
 
 LOGIN_URL=['/login/']
 
@@ -165,7 +173,7 @@ UNFOLD = {
     "SITE_TITLE": 'Library Management',
     "SITE_HEADER": 'Library Management',
     "SITE_URL": "/",
-    "SITE_ICON": lambda request: static("image\logo1.png"),
+    "SITE_ICON":"static\image\logo1.png",
 
     "LOGIN": {
         "redirect_after": lambda r: reverse_lazy("admin:APP_MODEL_changelist"),
@@ -230,4 +238,5 @@ UNFOLD = {
 UNFOLD["STYLES"]=[
     lambda reqyest:static("css/admin.css")
 ]
+
 
