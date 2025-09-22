@@ -25,8 +25,6 @@ urlpatterns = [
     path('login/', view.loginview, name='login'),
     path('register/', view.registerview, name='register'),
     path('logout/', view.logoutview, name='logout'),
-    path('books/',view.books,name="books"),
-    path('borrowbook/<int:id>/',view.borrowbook,name='borrow_book'),
-    path('borrowed_book/',view.borrowed_book,name="borrowed_book"),
-    path('returnbook/<int:id>/',view.return_book,name="return_book")
+    path('books/',include("Books.urls")),
+    path('about/',include("contact.urls"))
 ]

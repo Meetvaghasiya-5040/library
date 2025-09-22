@@ -1,4 +1,6 @@
 import urllib.request
+from django.utils import timezone
+
 
 def check_internet(host='8.8.8.8',port=53,timeout=3):
     try:

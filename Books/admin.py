@@ -1,5 +1,7 @@
 from django.contrib import admin
 from Books.models import Book,Borrow_book
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from unfold.admin import ModelAdmin as UnfoldModelAdmin
 
 class BookAdmin(UnfoldModelAdmin):
@@ -9,8 +11,9 @@ class BookAdmin(UnfoldModelAdmin):
 admin.site.register(Book,BookAdmin)
 
 class BorrowAdmin(UnfoldModelAdmin):
-    list_display=('user','book','borrow_date','return_date','borrow_price')
-
+    list_display=('user','book_title','borrow_date','return_date','borrow_price')
+    list_filter=('user',)
+    search_fields=('user__username','book_title')
     def get_queryset(self, request):
         qs=super().get_queryset(request)
         if request.user.is_superuser:
@@ -18,4 +21,16 @@ class BorrowAdmin(UnfoldModelAdmin):
         return qs.none()
 
 admin.site.register(Borrow_book,BorrowAdmin)
+
+
+class Borrowinline(admin.TabularInline):
+    model=Borrow_book
+    extra=0
+
+class CustomUserAdmin(BaseUserAdmin):
+    inlines=[Borrowinline]
+
+admin.site.unregister(User)
+admin.site.register(User,CustomUserAdmin)
+
 # Register your models here.
