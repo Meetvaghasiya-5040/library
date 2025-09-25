@@ -156,7 +156,7 @@ TIME_ZONE='Asia/Kolkata'
 USE_TZ=True
 
 
-ALLOWED_HOSTS=['127.0.0.1','https://library-management-akdn.onrender.com','library.onrender.com','localhost','library-5.onrender.com']
+ALLOWED_HOSTS=['127.0.0.1','https://library-menagement-b6pc.onrender.com','library.onrender.com','localhost','library-5.onrender.com']
 
 
 LOGIN_URL=['/login/']
