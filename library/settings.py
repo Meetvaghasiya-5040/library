@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'library.urls'
@@ -88,7 +90,7 @@ WSGI_APPLICATION = 'library.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR /'db.sqlite3',
     }
 }
 
@@ -127,18 +129,23 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+# STATICFILES_STORAGE=['whitenoise.storage.CompressedManifestStaticFilesStorage']
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    os.path.join(BASE_DIR, 'static'),
 ]
-STATIC_ROOT='staticfiles/'
+
+
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MESSAGE_TAGS={
     messages.ERROR:'danger',
@@ -149,7 +156,7 @@ TIME_ZONE='Asia/Kolkata'
 USE_TZ=True
 
 
-ALLOWED_HOSTS=['*']
+ALLOWED_HOSTS=['127.0.0.1','https://library-management-akdn.onrender.com','library.onrender.com','localhost','library-5.onrender.com']
 
 
 LOGIN_URL=['/login/']
