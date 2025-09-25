@@ -84,38 +84,38 @@
         });
     });
 
-    // Real-time form validation
-    function validateForm() {
-        const form = document.getElementById('contactForm');
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const requiredFields = form.querySelectorAll('input[required], select[required], textarea[required]');
+    // // Real-time form validation
+    // function validateForm() {
+    //     const form = document.getElementById('contactForm');
+    //     const submitBtn = form.querySelector('button[type="submit"]');
+    //     const requiredFields = form.querySelectorAll('input[required], select[required], textarea[required]');
         
-        let allValid = true;
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                allValid = false;
-            }
-        });
+    //     let allValid = true;
+    //     requiredFields.forEach(field => {
+    //         if (!field.value.trim()) {
+    //             allValid = false;
+    //         }
+    //     });
         
-        // Enable/disable submit button based on validation
-        submitBtn.disabled = !allValid;
-        if (allValid) {
-            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        } else {
-            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        }
-    }
+    //     // Enable/disable submit button based on validation
+    //     submitBtn.disabled = !allValid;
+    //     if (allValid) {
+    //         submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    //     } else {
+    //         submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    //     }
+    // }
 
-    // Add input listeners for real-time validation
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('contactForm');
-        const inputs = form.querySelectorAll('input, select, textarea');
+    // // Add input listeners for real-time validation
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     const form = document.getElementById('contactForm');
+    //     const inputs = form.querySelectorAll('input, select, textarea');
         
-        inputs.forEach(input => {
-            input.addEventListener('input', validateForm);
-            input.addEventListener('change', validateForm);
-        });
+    //     inputs.forEach(input => {
+    //         input.addEventListener('input', validateForm);
+    //         input.addEventListener('change', validateForm);
+    //     });
         
-        // Initial validation
-        validateForm();
-    });
+    //     // Initial validation
+    //     validateForm();
+    // });

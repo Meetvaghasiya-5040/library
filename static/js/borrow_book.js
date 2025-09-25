@@ -82,7 +82,7 @@
         const overdueElement = document.getElementById("overdueCount");
         const totalPenaltyElement = document.getElementById("totalPenalty");
 
-        if (onTimeElement) onTimeElement.textContent = onTimeCount;
+        // if (onTimeElement) onTimeElement.textContent = onTimeCount;
         if (overdueElement) overdueElement.textContent = overdueCount;
         if (totalPenaltyElement)
           totalPenaltyElement.textContent = `${totalPenalty.toFixed(2)}`;
@@ -92,4 +92,4 @@
       document.addEventListener("DOMContentLoaded", updateBookStatuses);
 
       // Update statuses every minute
-      setInterval(updateBookStatuses, 60000);
+      setInterval(updateBookStatuses, 600);

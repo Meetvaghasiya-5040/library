@@ -235,11 +235,14 @@ UNFOLD = {
 UNFOLD["STYLES"]=[
     lambda reqyest:static("css/admin.css")
 ]
-EMAIL_HOST='smtp.gmail.com'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Use your SMTP server
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'meetvaghasiya166@gmail.com'
-EMAIL_HOST_PASSWORD = '9173739080@Meet'
 EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'meetvaghasiya166@gmail.com'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'uycl kjms nuuh bysv'  # Replace with your password or app password
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
       

@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from unfold.admin import ModelAdmin as UnfoldModelAdmin
 
+
+
 class BookAdmin(UnfoldModelAdmin):
     list_display=('book_title','book_autor','isbn_num','book_price','copies')
 
@@ -11,7 +13,8 @@ class BookAdmin(UnfoldModelAdmin):
 admin.site.register(Book,BookAdmin)
 
 class BorrowAdmin(UnfoldModelAdmin):
-    list_display=('user','book_title','borrow_date','return_date','borrow_price')
+    list_display=('user','book_title','borrow_date','return_date','borrow_price','penalty')
+
     list_filter=('user',)
     search_fields=('user__username','book_title')
     def get_queryset(self, request):
@@ -27,10 +30,12 @@ class Borrowinline(admin.TabularInline):
     model=Borrow_book
     extra=0
 
+admin.site.unregister(User)
 class CustomUserAdmin(BaseUserAdmin):
     inlines=[Borrowinline]
+    class Media:
+        js=("static/js/admin_refrech.js")
 
-admin.site.unregister(User)
 admin.site.register(User,CustomUserAdmin)
 
-# Register your models here.
+

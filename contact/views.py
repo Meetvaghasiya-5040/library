@@ -1,9 +1,11 @@
 
 
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import ContactUs
 from Books.utils import check_internet
+from django.core.mail import send_mail
 
 def about(request):
     internet = check_internet()
@@ -15,12 +17,12 @@ def contact(request):
     if request.method == 'POST':
         try:
             
-            first_name = request.POST.get('firstName', '').strip()
-            last_name = request.POST.get('last_name', '').strip()
-            email = request.POST.get('email', '').strip()
-            phone = request.POST.get('phone', '').strip()
-            subject = request.POST.get('subject', '').strip()
-            message = request.POST.get('message', '').strip()
+            first_name = request.POST.get('firstName')
+            last_name = request.POST.get('last_name')
+            email = request.POST.get('email')
+            phone = request.POST.get('phone')
+            subject = request.POST.get('subject')
+            message = request.POST.get('message')
             
             
             if not all([first_name, last_name, email, subject, message]):
@@ -28,11 +30,7 @@ def contact(request):
                 return render(request, 'contact.html', {'internet': internet})
             
 
-            import re
-            email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-            if not re.match(email_pattern, email):
-                messages.error(request, 'Please enter a valid email address.')
-                return render(request, 'contact.html', {'internet': internet})
+            
             
             
             contact_instance = ContactUs.objects.create(
@@ -44,6 +42,22 @@ def contact(request):
                 message=message
             )
             
+                # Send email notification
+            email_subject = f'New Contact Form Submission: {subject}'
+            email_message = (
+                    f'Name: {first_name} {last_name}\n'
+                    f'Email: {email}\n'
+                    f'Phone: {phone}\n'
+                    f'Subject: {subject}\n'
+                    f'Message: \n Thank you for give your feedback !\n Our team will contact you soon for your peoblem : {message} . We will Solw your problem very soon !'
+                )
+            send_mail(
+                    email_subject,
+                    email_message,
+                    None,
+                    [email],
+                    fail_silently=False,
+                )
             
             messages.success(
                 request, 
@@ -53,6 +67,9 @@ def contact(request):
             
             return redirect('contact')
             
+        except IntegrityError:
+            messages.error(request,'Yout Phone Number Is Already Registered !')
+
         except Exception as e:
             
             print(f"Contact form error: {e}")
@@ -60,5 +77,5 @@ def contact(request):
                 request, 
                 'An error occurred while submitting your message. Please try again.'
             )
-    
+        
     return render(request, 'contact.html', {'internet': internet})

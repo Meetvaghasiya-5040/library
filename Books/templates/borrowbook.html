@@ -33,7 +33,7 @@
             <p class="text-gray-600 text-sm">Total Books</p>
           </div>
 
-          <!-- <div class="glass-morphism rounded-2xl p-6 text-center hover-scale">
+          <div class="glass-morphism rounded-2xl p-6 text-center hover-scale">
             <div
               class="bg-gradient-to-r from-green-500 to-emerald-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"
             >
@@ -41,7 +41,7 @@
             </div>
             <h3 class="text-2xl font-bold text-gray-800" id="onTimeCount">0</h3>
             <p class="text-gray-600 text-sm">On Time</p>
-          </div> -->
+          </div>
 
           <div class="glass-morphism rounded-2xl p-6 text-center hover-scale">
             <div
@@ -86,7 +86,7 @@
                 <th class="px-6 py-4 text-left font-semibold">Return Date</th>
                 <th class="px-6 py-4 text-left font-semibold">Price</th>
                 <th class="px-6 py-4 text-left font-semibold">Penalty</th>
-                <!-- <th class="px-6 py-4 text-left font-semibold">Status</th> -->
+                <th class="px-6 py-4 text-left font-semibold">Status</th>
                 <th class="px-6 py-4 text-center font-semibold">Actions</th>
               </tr>
             </thead>
@@ -94,8 +94,8 @@
               {% for book in borrowed %}
               <tr
                 class="hover:bg-white/50 transition-colors duration-200"
-                data-book-return-date="{{ book.return_date }}"
-                data-book-penalty="{{ book.panalty }}"
+                data-book-return-date="{{ book.return_date|date:'Y-m-d' }}"
+                data-book-penalty="{{ book.penalty }}"
               >
                 <td class="px-6 py-4 font-medium text-gray-800">
                   {{ forloop.counter }}
@@ -111,20 +111,20 @@
                       <p class="font-semibold text-gray-800">
                         {{ book.book_title }}
                       </p>
-                      <p class="text-sm text-gray-600">by {{ book.user }}</p>
+                      <p class="text-sm text-gray-600">by {{ book.book.book_autor }}</p>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4 text-gray-700">
                   <div class="flex items-center space-x-2">
                     <i class="fas fa-calendar text-blue-500"></i>
-                    <span>{{ book.borrow_date }}</span>
+                    <span>{{ book.borrow_date|date:'Y-m-d' }}</span>
                   </div>
                 </td>
                 <td class="px-6 py-4 text-gray-700">
                   <div class="flex items-center space-x-2">
                     <i class="fas fa-calendar-alt text-orange-500"></i>
-                    <span>{{ book.return_date }}</span>
+                    <span>{{ book.return_date|date:'Y-m-d' }}</span>
                   </div>
                 </td>
                 <td class="px-6 py-4">
@@ -141,16 +141,33 @@
                   <span class="text-gray-400">$0</span>
                   {% endif %}
                 </td>
-                <!-- <td class="px-6 py-4">
+                <td class="px-6 py-4">
                   <span
                     class="status-badge px-3 py-1 rounded-full text-white text-sm font-medium"
                   >
                     <i class="fas fa-circle text-xs mr-1"></i>
                     <span class="status-text">Checking...</span>
                   </span>
-                </td> -->
+                </td>
                 <td class="px-6 py-4">
                   <div class="flex items-center justify-center space-x-2">
+                    {% if book.penalty > 0 and not book.penalty_paid %}
+                    <form
+                      action="{% url 'pay_penalty' id=book.id %}"
+                      method="post"
+                      class="inline"
+                    >
+                      {% csrf_token %}
+                      <button
+                        type="submit"
+                        class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-2 rounded-lg font-medium hover:from-orange-600 hover:to-red-700 transition-all duration-200 hover-scale text-sm"
+                      >
+                        <i class="fas fa-credit-card mr-1"></i>
+                        Pay ${{ book.penalty }}
+                      </button>
+                    </form>
+                    {% endif %}
+                    
                     <form
                       action="{% url 'return_book' id=book.id %}"
                       method="post"
@@ -160,23 +177,12 @@
                       <button
                         type="submit"
                         class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-lg font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-200 hover-scale text-sm"
+                        {% if book.penalty > 0 and not book.penalty_paid %}disabled title="Pay penalty first"{% endif %}
                       >
                         <i class="fas fa-undo mr-1"></i>
                         Return
                       </button>
                     </form>
-                    {% if book.panalty > 0 %}
-                    <form action="#" method="post" class="inline">
-                      {% csrf_token %}
-                      <button
-                        type="submit"
-                        class="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-2 rounded-lg font-medium hover:from-orange-600 hover:to-red-700 transition-all duration-200 hover-scale text-sm"
-                      >
-                        <i class="fas fa-credit-card mr-1"></i>
-                        Pay
-                      </button>
-                    </form>
-                    {% endif %}
                   </div>
                 </td>
               </tr>
@@ -190,8 +196,8 @@
           {% for book in borrowed %}
           <div
             class="book-item glass-morphism rounded-2xl p-6"
-            data-book-return-date="{{ book.return_date }}"
-            data-book-penalty="{{ book.panalty }}"
+            data-book-return-date="{{ book.return_date|date:'Y-m-d' }}"
+            data-book-penalty="{{ book.penalty }}"
           >
             <!-- Book Header -->
             <div class="flex items-start justify-between mb-4">
@@ -205,7 +211,7 @@
                   <h3 class="font-bold text-gray-800 text-lg">
                     {{ book.book_title }}
                   </h3>
-                  <p class="text-gray-600 text-sm">by {{ book.user }}</p>
+                  <p class="text-gray-600 text-sm">by {{ book.book.book_autor }}</p>
                 </div>
               </div>
               <span
@@ -224,7 +230,7 @@
                   <span class="text-gray-600">Borrowed:</span>
                 </div>
                 <p class="font-medium text-gray-800 ml-6">
-                  {{ book.borrow_date }}
+                  {{ book.borrow_date|date:'Y-m-d' }}
                 </p>
               </div>
 
@@ -234,7 +240,7 @@
                   <span class="text-gray-600">Due Date:</span>
                 </div>
                 <p class="font-medium text-gray-800 ml-6">
-                  {{ book.return_date }}
+                  {{ book.return_date|date:'Y-m-d' }}
                 </p>
               </div>
 
@@ -253,9 +259,9 @@
                   <i class="fas fa-exclamation-triangle text-red-500 w-4"></i>
                   <span class="text-gray-600">Penalty:</span>
                 </div>
-                {% if book.panalty > 0 %}
+                {% if book.penalty > 0 %}
                 <p class="font-semibold text-red-600 ml-6 animate-pulse-gentle">
-                  ${{ book.panalty }}
+                  ${{ book.penalty }}
                 </p>
                 {% else %}
                 <p class="text-gray-400 ml-6">$0</p>
@@ -267,6 +273,23 @@
             <div
               class="border-t border-gray-200 pt-4 flex flex-col sm:flex-row gap-3"
             >
+              {% if book.penalty > 0 and not book.penalty_paid %}
+              <form
+                action="{% url 'pay_penalty' id=book.id %}"
+                method="post"
+                class="flex-1"
+              >
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-red-700 transition-all duration-200 hover-scale"
+                >
+                  <i class="fas fa-credit-card mr-2"></i>
+                  Pay Penalty ${{ book.penalty }}
+                </button>
+              </form>
+              {% endif %}
+              
               <form
                 action="{% url 'return_book' id=book.id %}"
                 method="post"
@@ -276,23 +299,12 @@
                 <button
                   type="submit"
                   class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-200 hover-scale"
+                  {% if book.penalty > 0 and not book.penalty_paid %}disabled style="opacity: 0.5; cursor: not-allowed;" title="Pay penalty first"{% endif %}
                 >
                   <i class="fas fa-undo mr-2"></i>
                   Return Book
                 </button>
               </form>
-              {% if book.panalty > 0 %}
-              <form action="#" method="post" class="flex-1">
-                {% csrf_token %}
-                <button
-                  type="submit"
-                  class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-red-700 transition-all duration-200 hover-scale"
-                >
-                  <i class="fas fa-credit-card mr-2"></i>
-                  Pay Penalty
-                </button>
-              </form>
-              {% endif %}
             </div>
           </div>
           {% endfor %}
@@ -517,7 +529,7 @@
       </div>
     </div>
 
-    <script src="/static/js/borrow_book.js"></script>
+    <script src="{% static 'js/borrow_book.js' %}"></script>
   </body>
 </html>
 {% endblock %}
