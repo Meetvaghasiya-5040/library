@@ -236,12 +236,11 @@ UNFOLD = {
                 ],
             },
         ],
-    },
-    
-}
-UNFOLD["STYLES"]=[
+    },"STYLES": [
     lambda reqyest:static("css/admin.css")
 ]
+    
+}
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # Use your SMTP server
