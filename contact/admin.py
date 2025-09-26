@@ -1,6 +1,7 @@
 from django.contrib import admin
-from contact.models import ContactUs
 from unfold.admin import ModelAdmin as UnfoldModelAdmin
+
+from contact.models import ContactUs
 
 
 class ContactAdmin(UnfoldModelAdmin):
