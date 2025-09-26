@@ -1,12 +1,13 @@
-from django.shortcuts import render, HttpResponse, redirect
+from datetime import timedelta
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+
 from .models import Book, Borrow_book
 from .utils import check_internet
-from django.shortcuts import get_object_or_404
-from django.contrib import messages
-from django.utils import timezone
-from django.core.mail import send_mail
-from datetime import timedelta
 
 
 def books(request):
