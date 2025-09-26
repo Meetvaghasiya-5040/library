@@ -177,7 +177,7 @@ UNFOLD = {
     "SITE_TITLE": 'Library Management',
     "SITE_HEADER": 'Library Management',
     "SITE_URL": "/",
-    "SITE_ICON":lambda request:static("image\logo1.png"),
+    "SITE_ICON":lambda request:static(r"image\logo1.png"),
 
     "LOGIN": {
         "redirect_after": lambda r: reverse_lazy("admin:APP_MODEL_changelist"),
@@ -188,7 +188,7 @@ UNFOLD = {
             "rel":"icon",
             "sizes":"32x32",
             "type":"image/svg+xml",
-            "href":lambda request:static("image\logo1.png"),
+            "href":lambda request:static(r"image\logo1.png"),
         },
     ],
     
