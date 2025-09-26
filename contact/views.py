@@ -1,11 +1,14 @@
 
 
-from django.db import IntegrityError
-from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import ContactUs
-from Books.utils import check_internet
 from django.core.mail import send_mail
+from django.db import IntegrityError
+from django.shortcuts import redirect, render
+
+from Books.utils import check_internet
+
+from .models import ContactUs
+
 
 def about(request):
     internet = check_internet()
