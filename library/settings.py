@@ -129,7 +129,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-# STATICFILES_STORAGE=['whitenoise.storage.CompressedManifestStaticFilesStorage']
 
 
 # Default primary key field type
@@ -250,6 +249,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'meetvaghasiya166@gmail.com'  # Replace with your email
 EMAIL_HOST_PASSWORD = 'uycl kjms nuuh bysv'  # Replace with your password or app password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-
       

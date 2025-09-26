@@ -11,7 +11,6 @@ def home(request):
     internet=check_internet()
     return render(request,'index.html',{'internet':internet})
 
-# @login_required
 def loginview(request):
     if request.method=='POST':
         loginuser=request.POST.get('username')
@@ -29,7 +28,6 @@ def loginview(request):
     else:
         return HttpResponse('404 - Not Found')
 
-# @login_required
 def registerview(request):
     if request.method=='POST':
         username=request.POST.get('username')
